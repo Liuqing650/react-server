@@ -1,9 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const host = (process.env.HOST || 'localhost');
+const port = (+process.env.PORT + 1) || 3001;
 const config = {
-  entry: ['./src/index.js'],
+  entry: {
+    main: [
+      'webpack-dev-server/client?http://' + host + ':' + port + '/__webpack_hmr',
+      'webpack/hot/only-dev-server',
+      path.resolve(__dirname, './src/index.js')
+    ]
+  },
   output: {
     path: path.join(__dirname, 'static/dist/'),
     filename: 'index.js',
